@@ -1,5 +1,6 @@
 import { Typography, Alert } from "@mui/material";
 import {useCallback, useEffect, useState } from "react";
+import ExpenseForm from "./ExpenseForm";
 import ExpensesList from "./ExpensesList";
 
 type Expense = {
@@ -43,6 +44,7 @@ const MyExpenses: React.FC = () => {
         <Typography variant="h2" component="h1" align="center">My Expenses</Typography>
         {errorMessage === null && <ExpensesList categories={categories}></ExpensesList>}
         {errorMessage !== null && <Alert severity="error" >{errorMessage}</Alert>}
+        <ExpenseForm />
     </>;
 }
 
