@@ -13,7 +13,7 @@ const ExpensesList: React.FC<{categories: Map<string, number>}> = (props) => {
                 <Typography variant="h5" component="h2" align="center">
                     {category.name}
                 </Typography>
-                <Badge badgeContent={category.count} color="primary"/>
+                <Badge badgeContent={category.count} color="primary" sx={{width: 50}}/>
             </Paper>
         </Grid>)}
     </Grid>);
