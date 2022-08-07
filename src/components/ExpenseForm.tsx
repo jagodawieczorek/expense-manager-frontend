@@ -1,16 +1,52 @@
-import { FormControl, InputLabel, Input } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
-import { useState } from "react";
+import { FormControl, InputLabel, Input, Button } from '@mui/material';
+import { useState, useRef } from "react";
+
+type Expense = {
+    name: string,
+    amount : string,
+    category: string
+}
 
 const ExpenseForm: React.FC = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string|null>(null);
+    const [successMessage, setSuccessMessage] = useState<string|null>(null);
+    const nameRef = useRef<HTMLInputElement>();
+    const amountRef = useRef<HTMLInputElement>();
+    const categoryRef = useRef<HTMLInputElement>();
 
-    const handleSaveForm = () => {
-        setIsLoading(true);
-    }
+    const handleSaveForm = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const expense = {
+            name: nameRef.current?.value ?? "",
+            amount: amountRef.current?.value ?? "",
+            category: categoryRef.current?.value ?? ""
+        };
+        addNewExpenseHandler(expense);
+    };
+    
+
+    const addNewExpenseHandler = async (expense : Expense) => {
+        try {
+            const response = await fetch('http://localhost:8080/api/expenses', {
+                method: 'POST',
+                body: JSON.stringify(expense),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error();
+            } else {
+                setSuccessMessage("The expense has been successfully saved!");
+                setErrorMessage(null);
+            }
+        } catch (error) {
+            setErrorMessage('An error occured while saving a new expense! Please try once again later.');
+        } 
+    };
+
     return (
-        <form>
+        <form onSubmit={handleSaveForm}>
         <FormControl>
             <InputLabel htmlFor="name">Expense name</InputLabel>
             <Input id="name"/>
@@ -23,16 +59,7 @@ const ExpenseForm: React.FC = () => {
             <InputLabel htmlFor="category">Category</InputLabel>
             <Input id="category"/>
         </FormControl>
-        <LoadingButton
-            color="primary"
-            onClick={handleSaveForm}
-            loading={isLoading}
-            loadingPosition="start"
-            startIcon={<SaveIcon />}
-            variant="contained"
-            >
-                Save expense
-         </LoadingButton>
+        <Button type="submit"/>
          </form>
     );
 }

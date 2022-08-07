@@ -4,7 +4,7 @@ import ExpenseForm from "./ExpenseForm";
 import ExpensesList from "./ExpensesList";
 
 type Expense = {
-    id : string,
+    id : string | null,
     name: string,
     amount : number,
     category: string
@@ -16,7 +16,7 @@ const MyExpenses: React.FC = () => {
 
     const fetchCategoriesHandler = useCallback(async () => {
         try {
-            let response = await fetch('http://localhost:8080/api/expenses');
+            const response = await fetch('http://localhost:8080/api/expenses');
             if (response.ok) {
                 const data = await response.json();
                 if (data === null) {
