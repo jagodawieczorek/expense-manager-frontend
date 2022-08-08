@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Input, Button } from '@mui/material';
+import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
 import { useState, useRef } from "react";
 
 type Expense = {
@@ -45,22 +45,17 @@ const ExpenseForm: React.FC = () => {
         } 
     };
 
+
     return (
         <form onSubmit={handleSaveForm}>
-        <FormControl>
-            <InputLabel htmlFor="name">Expense name</InputLabel>
-            <Input id="name"/>
-        </FormControl>
-        <FormControl>
-            <InputLabel htmlFor='amount'>Amount</InputLabel>
-            <Input id="amount" type="number"/>
-        </FormControl>
-        <FormControl>
-            <InputLabel htmlFor="category">Category</InputLabel>
-            <Input id="category"/>
-        </FormControl>
-        <Button type="submit"/>
-         </form>
+                <InputLabel htmlFor="name">Expense name</InputLabel>
+                <Input id="name"/>
+                <InputLabel htmlFor='amount'>Amount</InputLabel>
+                <Input id="amount" type="number"/>
+                <InputLabel htmlFor="category">Category</InputLabel>
+                <Input id="category"/>
+                <Button type="submit"/>
+        </form>
     );
 }
 

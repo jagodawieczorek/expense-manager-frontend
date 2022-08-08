@@ -41,7 +41,7 @@ const MyExpenses: React.FC = () => {
     }, [fetchCategoriesHandler]);
 
     return <>
-        <Typography variant="h2" component="h1" align="center">My Expenses</Typography>
+        <Typography sx={{margin: 3}} variant="h2" component="h1" align="center">My Expenses</Typography>
         {errorMessage === null && <ExpensesList categories={categories}></ExpensesList>}
         {errorMessage !== null && <Alert severity="error" >{errorMessage}</Alert>}
         <ExpenseForm />
