@@ -10,6 +10,8 @@ type Expense = {
     category: string
 }
 
+const failedToFetchErrorMessage = "An error occured while fetching categories! Please try again later.";
+
 const MyExpenses: React.FC = () => {
     const [categories, setCategories] = useState<Map<string, number>>(new Map<string, number>());
     const [errorMessage, setErrorMessage] = useState<string|null>(null);
@@ -27,10 +29,10 @@ const MyExpenses: React.FC = () => {
                     setErrorMessage(null);
                 }
             } else {
-                throw new Error("An error occured while fetching categories!");
+                throw new Error(failedToFetchErrorMessage);
             }
         } catch (error) {
-            setErrorMessage("An error occured while fetching categories!");
+            setErrorMessage(failedToFetchErrorMessage);
         }
 
     }, []);
