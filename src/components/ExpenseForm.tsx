@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Input, Button, Grid } from '@mui/material';
+import { FormControl, InputLabel, Input, Button, Grid, FormGroup } from '@mui/material';
 import { useState, useRef } from "react";
 
 type Expense = {
@@ -23,7 +23,6 @@ const ExpenseForm: React.FC = () => {
         };
         addNewExpenseHandler(expense);
     };
-    
 
     const addNewExpenseHandler = async (expense : Expense) => {
         try {
@@ -47,15 +46,25 @@ const ExpenseForm: React.FC = () => {
 
 
     return (
-        <form onSubmit={handleSaveForm}>
-                <InputLabel htmlFor="name">Expense name</InputLabel>
-                <Input id="name"/>
-                <InputLabel htmlFor='amount'>Amount</InputLabel>
-                <Input id="amount" type="number"/>
-                <InputLabel htmlFor="category">Category</InputLabel>
-                <Input id="category"/>
-                <Button type="submit"/>
-        </form>
+        <Grid container alignItems="center" justifyContent="center">
+            <form onSubmit={handleSaveForm}>
+                <Grid item key="name">
+                    <InputLabel htmlFor="name">Expense name</InputLabel>
+                    <Input id="name"/>
+                </Grid>
+                <Grid item key="amount">
+                    <InputLabel htmlFor='amount'>Amount</InputLabel>
+                    <Input id="amount" type="number"/>
+                </Grid>
+                <Grid item key="category">
+                    <InputLabel htmlFor="category">Category</InputLabel>
+                    <Input id="category"/>
+                </Grid>
+                <Grid item key="saveButton">
+                    <Button variant="contained" type="submit">Save</Button>
+                </Grid>
+            </form>
+        </Grid>
     );
 }
 

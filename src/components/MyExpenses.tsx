@@ -19,14 +19,13 @@ const MyExpenses: React.FC = () => {
             const response = await fetch('http://localhost:8080/api/expenses');
             if (response.ok) {
                 const data = await response.json();
-                if (data === null) {
-                    throw new Error("You don't have any expenses. Add one!");
+                if (data !== null && data.length !== 0) {
+                    const categoryCountMap: Map<string, number> = data.reduce(
+                        (acc: Map<string, number>, expense: Expense) => acc.set(expense.category, (acc.get(expense.category) || 0) + 1),
+                        new Map<string, number>());
+                    setCategories(categoryCountMap);
+                    setErrorMessage(null);
                 }
-                const categoryCountMap: Map<string, number> = data.reduce(
-                    (acc: Map<string, number>, expense: Expense) => acc.set(expense.category, (acc.get(expense.category) || 0) + 1),
-                      new Map<string, number>());
-                setCategories(categoryCountMap);
-                setErrorMessage(null);
             } else {
                 throw new Error("An error occured while fetching categories!");
             }
