@@ -1,15 +1,14 @@
-import { InputLabel, Input, Button, Grid, Alert} from '@mui/material';
-import { useState, useRef } from "react";
+import { InputLabel, Input, Button, Grid} from '@mui/material';
+import { useRef } from "react";
 
 type Expense = {
+    id : string | null,
     name: string,
     amount : string,
     category: string
 }
 
-const ExpenseForm: React.FC = () => {
-    const [errorMessage, setErrorMessage] = useState<string|null>(null);
-    const [successMessage, setSuccessMessage] = useState<string|null>(null);
+const ExpenseForm: React.FC<{onAddNewExpense : (expense: Expense) => Promise<void>}> = (props) => {
     const nameRef = useRef<HTMLInputElement>();
     const amountRef = useRef<HTMLInputElement>();
     const categoryRef = useRef<HTMLInputElement>();
@@ -17,38 +16,15 @@ const ExpenseForm: React.FC = () => {
     const handleSaveForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const expense = {
+            id: null,
             name: nameRef.current?.value ?? "",
             amount: amountRef.current?.value ?? "",
             category: categoryRef.current?.value ?? ""
         };
-        addNewExpenseHandler(expense);
+        props.onAddNewExpense(expense);
     };
 
-    const addNewExpenseHandler = async (expense : Expense) => {
-        try {
-            console.log(expense);
-            const response = await fetch('http://localhost:8080/api/expenses', {
-                method: 'POST',
-                body: JSON.stringify(expense),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (!response.ok) {
-                throw new Error();
-            } else {
-                setSuccessMessage("The expense has been successfully saved!");
-                setErrorMessage(null);
-            }
-        } catch (error) {
-            setErrorMessage('An error occured while saving a new expense!');
-        } 
-    };
-
-
-    return (<>
-            {errorMessage !== null && <Alert severity="error">{errorMessage}</Alert>}
-            {successMessage !== null && <Alert severity="success">{successMessage}</Alert>}
+    return (
             <Grid container alignItems="center" justifyContent="center">
                 <form onSubmit={handleSaveForm}>
                     <Grid item key="name">
@@ -68,7 +44,6 @@ const ExpenseForm: React.FC = () => {
                     </Grid>
                 </form>
             </Grid>
-        </>
     );
 }
 
