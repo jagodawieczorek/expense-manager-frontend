@@ -60,7 +60,7 @@ const MyExpenses: React.FC = () => {
 
     useEffect(() => {
         fetchCategoriesHandler();
-    }, [fetchCategoriesHandler]);
+    }, [fetchCategoriesHandler, addNewExpenseHandler]);
 
     return <>
         <Typography sx={{margin: 3}} variant="h2" component="h1" align="center">My Expenses</Typography>
